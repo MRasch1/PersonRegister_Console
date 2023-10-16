@@ -10,19 +10,28 @@ namespace PersonRegister_Console
 {
     internal class Startup
     {
+        RepoDB repoDB = new RepoDB();
+
         public Startup()
         {
             Console.WriteLine("Registrer en person");
-            Console.Write("Skriv venligst fornavn: ");
-            string fornavn = Console.ReadLine();
-            Console.Write("Skriv venligst efternavn: ");
-            string efternavn = Console.ReadLine();
-            Console.Write("Skriv Fødselsdato med følgende format DD-MM-YYYY: ");
-            DateTime fødselsdato = Convert.ToDateTime(Console.ReadLine());
-            Console.WriteLine(fornavn + " " + efternavn + " " + fødselsdato.Date.Year);
+
             Console.ReadKey();
 
         }
+
+
+        public void OpretPerson(string fornavn, string efternavn, DateTime fødselsdato)
+        {
+            Console.Write("Skriv venligst fornavn: ");
+            fornavn = Console.ReadLine();
+            Console.Write("Skriv venligst efternavn: ");
+            efternavn = Console.ReadLine();
+            Console.Write("Skriv Fødselsdato med følgende format DD-MM-YYYY: ");
+            fødselsdato = Convert.ToDateTime(Console.ReadLine());
+            Console.WriteLine(fornavn + " " + efternavn + " " + fødselsdato.ToShortDateString());
+        }
+
 
     }
 }
