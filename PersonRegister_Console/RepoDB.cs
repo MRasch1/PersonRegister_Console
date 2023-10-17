@@ -23,7 +23,7 @@ namespace PersonRegister_Console
                     sqlCommand.Parameters.AddWithValue("@Fornavn", fornavn);
                     sqlCommand.Parameters.AddWithValue("@Efternavn", efternavn);
                     sqlCommand.Parameters.AddWithValue("@Fødselsdato", fødselsdato);
-                    
+
                     conn.Open();
 
                     int rowsAffected = sqlCommand.ExecuteNonQuery();
@@ -37,6 +37,34 @@ namespace PersonRegister_Console
                         Console.WriteLine("Det lykkedes ikke at gemme!");
                     }
                     conn.Close();
+                }
+            }
+        }
+
+        public void UpdatePersonIRegister(string nytFornavn, string nytEfternavn, DateTime nyFødselsdato)
+        {
+            string updateQuery = "UPDATE Person SET Fornavn = @NytFornavn, Efternavn = @NytEfternavn, Fødselsdato = @NyFødselsdato";
+
+            using (SqlConnection conn = new SqlConnection(_connectionString))
+            {
+                conn.Open();
+
+                using (SqlCommand sqlCommand = new SqlCommand(updateQuery, conn))
+                {
+                    sqlCommand.Parameters.AddWithValue("@NytFornavn", nytFornavn);
+                    sqlCommand.Parameters.AddWithValue("@NytEfternavn", nytEfternavn);
+                    sqlCommand.Parameters.AddWithValue("@NyFødselsdato", nyFødselsdato);
+
+                    int rowsAffected = sqlCommand.ExecuteNonQuery();
+
+                    if (rowsAffected > 0)
+                    {
+                        Console.WriteLine("Person opdateret.");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Fejl. Person blev ikke opdateret.");
+                    }
                 }
             }
         }

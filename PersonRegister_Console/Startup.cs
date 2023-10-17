@@ -36,6 +36,10 @@ namespace PersonRegister_Console
             Console.WriteLine(fornavn + " " + efternavn + " " + fødselsdato.ToShortDateString());
         }
 
+        public void OpdaterPerson()
+        {
+
+        }
 
     }
 }
