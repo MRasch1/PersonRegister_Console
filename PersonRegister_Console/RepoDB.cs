@@ -14,7 +14,7 @@ namespace PersonRegister_Console
 
         public void InsertPersonIRegister(string fornavn, string efternavn, DateTime fødselsdato)
         {
-            string insertQuery = "INSERT INTO Person (Fornavn, Efternavn, Fødselsdato) VALUES (@Fornavn, @Efternavn, @Fødselsdato";
+            string insertQuery = "INSERT INTO Person (Fornavn, Efternavn, Fødselsdato) VALUES (@Fornavn, @Efternavn, @Fødselsdato)";
 
             using (SqlConnection conn = new SqlConnection(_connectionString))
             {
@@ -23,18 +23,18 @@ namespace PersonRegister_Console
                     sqlCommand.Parameters.AddWithValue("@Fornavn", fornavn);
                     sqlCommand.Parameters.AddWithValue("@Efternavn", efternavn);
                     sqlCommand.Parameters.AddWithValue("@Fødselsdato", fødselsdato);
-
+                    
                     conn.Open();
 
                     int rowsAffected = sqlCommand.ExecuteNonQuery();
 
                     if (rowsAffected > 0)
                     {
-                        Console.WriteLine("Row inserted successfully");
+                        Console.WriteLine("Ny data er blevet gemt.");
                     }
                     else
                     {
-                        Console.WriteLine("Failed to insert the row");
+                        Console.WriteLine("Det lykkedes ikke at gemme!");
                     }
                     conn.Close();
                 }

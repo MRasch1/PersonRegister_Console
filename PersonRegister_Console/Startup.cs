@@ -15,20 +15,24 @@ namespace PersonRegister_Console
         public Startup()
         {
             Console.WriteLine("Registrer en person");
-
+            OpretPerson();
             Console.ReadKey();
-
         }
 
-
-        public void OpretPerson(string fornavn, string efternavn, DateTime fødselsdato)
+        public void OpretPerson()
         {
+            DateTime fødselsdato;
+
             Console.Write("Skriv venligst fornavn: ");
-            fornavn = Console.ReadLine();
+            string fornavn = Console.ReadLine();
             Console.Write("Skriv venligst efternavn: ");
-            efternavn = Console.ReadLine();
+            string efternavn = Console.ReadLine();
             Console.Write("Skriv Fødselsdato med følgende format DD-MM-YYYY: ");
-            fødselsdato = Convert.ToDateTime(Console.ReadLine());
+            while (!DateTime.TryParse(Console.ReadLine(), out fødselsdato))
+            {
+                Console.WriteLine("Indtast en gyldig fødselsdato: ");
+            };
+            repoDB.InsertPersonIRegister(fornavn, efternavn, fødselsdato);
             Console.WriteLine(fornavn + " " + efternavn + " " + fødselsdato.ToShortDateString());
         }
 
