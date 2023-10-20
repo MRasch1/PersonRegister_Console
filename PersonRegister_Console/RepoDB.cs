@@ -41,9 +41,9 @@ namespace PersonRegister_Console
             }
         }
 
-        public void UpdatePersonIRegister(string nytFornavn, string nytEfternavn, DateTime nyFødselsdato)
+        public void UpdatePersonIRegister(string nytFornavn, string nytEfternavn, DateTime nyFødselsdato, int id)
         {
-            string updateQuery = "UPDATE Person SET Fornavn = @NytFornavn, Efternavn = @NytEfternavn, Fødselsdato = @NyFødselsdato";
+            string updateQuery = $"UPDATE Person SET Fornavn = @NytFornavn, Efternavn = @NytEfternavn, Fødselsdato = @NyFødselsdato WHERE Id = {id}";
 
             using (SqlConnection conn = new SqlConnection(_connectionString))
             {

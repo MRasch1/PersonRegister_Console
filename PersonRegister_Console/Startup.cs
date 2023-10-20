@@ -15,7 +15,7 @@ namespace PersonRegister_Console
         public Startup()
         {
             Console.WriteLine("Registrer en person");
-            OpretPerson();
+            OpdaterPerson();
             Console.ReadKey();
         }
 
@@ -38,7 +38,21 @@ namespace PersonRegister_Console
 
         public void OpdaterPerson()
         {
+            DateTime nyFødselsdato;
 
+            Console.Write("Vælg ID på person du vil ændre på: ");
+            int id = Convert.ToInt32(Console.ReadLine());
+            Console.Write("Skriv venligst nyt fornavn: ");
+            string nytFornavn = Console.ReadLine();
+            Console.Write("Skriv venligst nyt efternavn: ");
+            string nytEfternavn = Console.ReadLine();
+            Console.Write("Skriv ny Fødselsdato med følgende format DD-MM-YYYY: ");
+            while (!DateTime.TryParse(Console.ReadLine(), out nyFødselsdato))
+            {
+                Console.WriteLine("Indtast en gyldig fødselsdato: ");
+            };
+            repoDB.UpdatePersonIRegister(nytFornavn, nytEfternavn, nyFødselsdato, id);
+            Console.WriteLine(nytFornavn + " " + nytEfternavn + " " + nyFødselsdato.ToShortDateString());
         }
 
     }
