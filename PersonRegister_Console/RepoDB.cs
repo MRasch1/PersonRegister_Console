@@ -41,30 +41,71 @@ namespace PersonRegister_Console
             }
         }
 
-        public void UpdatePersonIRegister(string nytFornavn, string nytEfternavn, DateTime nyFødselsdato, int id)
+        public void UpdatePersonIRegister(string nytFornavn, string nytEfternavn, DateTime? nyFødselsdato, int id)
         {
-            string updateQuery = $"UPDATE Person SET Fornavn = @NytFornavn, Efternavn = @NytEfternavn, Fødselsdato = @NyFødselsdato WHERE Id = {id}";
-
+            //string updateQuery = $"UPDATE Person SET Fornavn = @NytFornavn, Efternavn = @NytEfternavn, Fødselsdato = @NyFødselsdato WHERE Id = {id}";
             using (SqlConnection conn = new SqlConnection(_connectionString))
             {
                 conn.Open();
 
-                using (SqlCommand sqlCommand = new SqlCommand(updateQuery, conn))
+                string updateSql = "UPDATE Person SET";
+                bool updateRequired = false;
+
+                if (!string.IsNullOrEmpty(nytFornavn))
                 {
-                    sqlCommand.Parameters.AddWithValue("@NytFornavn", nytFornavn);
-                    sqlCommand.Parameters.AddWithValue("@NytEfternavn", nytEfternavn);
-                    sqlCommand.Parameters.AddWithValue("@NyFødselsdato", nyFødselsdato);
+                    updateSql += " Fornavn = @NytFornavn,";
+                    updateRequired = true;
+                }
 
-                    int rowsAffected = sqlCommand.ExecuteNonQuery();
+                if (!string.IsNullOrEmpty(nytEfternavn))
+                {
+                    updateSql += " Efternavn = @NytEfternavn,";
+                    updateRequired = true;
+                }
 
-                    if (rowsAffected > 0)
+                if (nyFødselsdato != null)
+                {
+                    updateSql += " Fødselsdato = @NyFødselsdato,";
+                    updateRequired = true;
+                }
+
+                if (updateRequired)
+                {
+                    updateSql = updateSql.TrimEnd(',');
+                    updateSql += $" WHERE Id = {id}";
+
+                    using (SqlCommand sqlCommand = new SqlCommand(updateSql, conn))
                     {
-                        Console.WriteLine("Person opdateret.");
+                        if (!string.IsNullOrEmpty(nytFornavn))
+                        {
+                            sqlCommand.Parameters.AddWithValue("@NytFornavn", nytFornavn);
+                        }
+
+                        if (!string.IsNullOrEmpty(nytEfternavn))
+                        {
+                            sqlCommand.Parameters.AddWithValue("@NytEfternavn", nytEfternavn);
+                        }
+
+                        if (nyFødselsdato != null)
+                        {
+                            sqlCommand.Parameters.AddWithValue("@NyFødselsdato", nyFødselsdato);
+                        }
+
+                        int rowsAffected = sqlCommand.ExecuteNonQuery();
+
+                        if (rowsAffected > 0)
+                        {
+                            Console.WriteLine("Person opdateret.");
+                        }
+                        else
+                        {
+                            Console.WriteLine("Fejl. Person blev ikke opdateret.");
+                        }
                     }
-                    else
-                    {
-                        Console.WriteLine("Fejl. Person blev ikke opdateret.");
-                    }
+                }
+                else
+                {
+                    Console.WriteLine("Ingen opdateringer blev gjort på person.");
                 }
             }
         }

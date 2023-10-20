@@ -38,8 +38,6 @@ namespace PersonRegister_Console
 
         public void OpdaterPerson()
         {
-            DateTime nyFødselsdato;
-
             Console.Write("Vælg ID på person du vil ændre på: ");
             int id = Convert.ToInt32(Console.ReadLine());
             Console.Write("Skriv venligst nyt fornavn: ");
@@ -47,13 +45,33 @@ namespace PersonRegister_Console
             Console.Write("Skriv venligst nyt efternavn: ");
             string nytEfternavn = Console.ReadLine();
             Console.Write("Skriv ny Fødselsdato med følgende format DD-MM-YYYY: ");
-            while (!DateTime.TryParse(Console.ReadLine(), out nyFødselsdato))
-            {
-                Console.WriteLine("Indtast en gyldig fødselsdato: ");
-            };
-            repoDB.UpdatePersonIRegister(nytFornavn, nytEfternavn, nyFødselsdato, id);
-            Console.WriteLine(nytFornavn + " " + nytEfternavn + " " + nyFødselsdato.ToShortDateString());
+            repoDB.UpdatePersonIRegister(nytFornavn, nytEfternavn, IsItNullable(), id);
+            //Console.WriteLine(nytFornavn + " " + nytEfternavn + " " + nyFødselsdato.ToShortDateString());
         }
 
+        public DateTime? IsItNullable()
+        {
+            DateTime? nullableDateTime = null;
+            string input = Console.ReadLine();
+
+            if (!string.IsNullOrEmpty(input))
+            {
+                if (DateTime.TryParse(input, out DateTime parsedDateTime))
+                {
+                    nullableDateTime = parsedDateTime;
+                    return nullableDateTime;
+                }
+                else
+                {
+                    Console.WriteLine("Indtast en gyldig fødselsdato: ");
+                    return nullableDateTime;
+                }
+            }
+            else
+            {
+                //Bruger har ikke indtastet noget, så nullableDateTime er null.
+                return nullableDateTime;
+            }
+        }
     }
 }
