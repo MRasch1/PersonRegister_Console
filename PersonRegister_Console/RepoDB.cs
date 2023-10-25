@@ -109,5 +109,28 @@ namespace PersonRegister_Console
                 }
             }
         }
+
+        public void DeletePersonIRegister(int id)
+        {
+            string dropQuery = $"DELETE FROM Person WHERE Id = {id}";
+
+            using (SqlConnection conn = new SqlConnection(_connectionString))
+            {
+                conn.Open();
+                using (SqlCommand sqlCommand = new SqlCommand(dropQuery, conn))
+                {
+                    try
+                    {
+                        sqlCommand.ExecuteNonQuery();
+                        Console.WriteLine($"Række med id:({id}) er blevet fjernet fra databasen.");
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine("Fejl: " + ex.Message);
+                    }
+                }
+            }
+        }
+
     }
 }

@@ -14,8 +14,7 @@ namespace PersonRegister_Console
 
         public Startup()
         {
-            Console.WriteLine("Registrer en person");
-            OpdaterPerson();
+            SletPerson();
             Console.ReadKey();
         }
 
@@ -40,11 +39,11 @@ namespace PersonRegister_Console
         {
             Console.Write("Vælg ID på person du vil ændre på: ");
             int id = Convert.ToInt32(Console.ReadLine());
-            Console.Write("Skriv venligst nyt fornavn: ");
+            Console.Write("Skriv venligst nyt fornavn eller efterlad felt blankt: ");
             string nytFornavn = Console.ReadLine();
-            Console.Write("Skriv venligst nyt efternavn: ");
+            Console.Write("Skriv venligst nyt efternavn eller efterlad felt blankt: ");
             string nytEfternavn = Console.ReadLine();
-            Console.Write("Skriv ny Fødselsdato med følgende format DD-MM-YYYY: ");
+            Console.Write("Skriv ny Fødselsdato med følgende format DD-MM-YYYY  eller efterlad felt blankt: ");
             repoDB.UpdatePersonIRegister(nytFornavn, nytEfternavn, IsItNullable(), id);
             //Console.WriteLine(nytFornavn + " " + nytEfternavn + " " + nyFødselsdato.ToShortDateString());
         }
@@ -72,6 +71,18 @@ namespace PersonRegister_Console
                 //Bruger har ikke indtastet noget, så nullableDateTime er null.
                 return nullableDateTime;
             }
+        }
+
+        public void SletPerson()
+        {
+            int id;
+
+            Console.WriteLine("Vælg ID på den person du gerne vil slette: ");
+            while (!int.TryParse(Console.ReadLine(), out id))
+            {
+                Console.WriteLine("indtast et gyldigt tal: ");
+            }
+            repoDB.DeletePersonIRegister(id);
         }
     }
 }
