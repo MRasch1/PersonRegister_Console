@@ -27,9 +27,10 @@ namespace PersonRegister_Console
                 Console.WriteLine("Tast 1. for at oprette en person.");
                 Console.WriteLine("Tast 2. for at opdatere en person.");
                 Console.WriteLine("Tast 3. for at slette en person.");
+                Console.WriteLine("Tast 4. for at vise alle personer.");
                 Console.WriteLine("Tast 0. for at lukke programmet.");
 
-                while (!int.TryParse(Console.ReadLine(), out menuIndtast) || menuIndtast > 3 || menuIndtast < 0) ;
+                while (!int.TryParse(Console.ReadLine(), out menuIndtast) || menuIndtast > 4 || menuIndtast < 0) ;
 
                 if (menuIndtast == 1)
                 {
@@ -44,6 +45,11 @@ namespace PersonRegister_Console
                 else if (menuIndtast == 3)
                 {
                     SletPerson();
+                }
+
+                else if (menuIndtast == 4)
+                {
+                    repoDB.SelectAllPersonsFromDB();
                 }
 
                 else if (menuIndtast == 0) { }
