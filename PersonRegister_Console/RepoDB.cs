@@ -132,5 +132,37 @@ namespace PersonRegister_Console
             }
         }
 
+        public void SelectAllPersonsFromDB()
+        {
+            string selectQuery = "SELECT * FROM Person";
+
+            using (SqlConnection conn = new SqlConnection(_connectionString))
+            {
+                conn.Open();
+                using (SqlCommand sqlCommand = new SqlCommand(selectQuery, conn))
+                {
+                    using (SqlDataReader reader = sqlCommand.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            DateTime fødselsdato;
+
+                            string id = reader["Id"].ToString();
+                            string fornavn = reader["Fornavn"].ToString();
+                            string efternavn = reader["Efternavn"].ToString();
+                            fødselsdato = Convert.ToDateTime(reader["Fødselsdato"]);
+                            string fødsesldatoString = fødselsdato.ToShortDateString();
+
+                            Console.WriteLine($"Person ID: {id}");
+                            Console.WriteLine($"Person Fornavn: {fornavn}");
+                            Console.WriteLine($"Person Efternavn: {efternavn}");
+                            Console.WriteLine($"Person Fødseldato: {fødsesldatoString}");
+                            Console.WriteLine();
+                        }
+                    }
+                }
+            }
+        }
+
     }
 }

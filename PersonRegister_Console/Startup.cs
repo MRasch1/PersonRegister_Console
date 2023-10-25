@@ -14,8 +14,43 @@ namespace PersonRegister_Console
 
         public Startup()
         {
-            SletPerson();
-            Console.ReadKey();
+            Menu();
+        }
+
+        public void Menu()
+        {
+            int menuIndtast;
+            do
+            {
+
+                Console.WriteLine("Menu");
+                Console.WriteLine("Tast 1. for at oprette en person.");
+                Console.WriteLine("Tast 2. for at opdatere en person.");
+                Console.WriteLine("Tast 3. for at slette en person.");
+                Console.WriteLine("Tast 0. for at lukke programmet.");
+
+                while (!int.TryParse(Console.ReadLine(), out menuIndtast) || menuIndtast > 3 || menuIndtast < 0) ;
+
+                if (menuIndtast == 1)
+                {
+                    OpretPerson();
+                }
+
+                else if (menuIndtast == 2)
+                {
+                    OpdaterPerson();
+                }
+
+                else if (menuIndtast == 3)
+                {
+                    SletPerson();
+                }
+
+                else if (menuIndtast == 0) { }
+
+                Console.ReadKey();
+                Console.Clear();
+            } while (menuIndtast != 0);
         }
 
         public void OpretPerson()
@@ -33,6 +68,7 @@ namespace PersonRegister_Console
             };
             repoDB.InsertPersonIRegister(fornavn, efternavn, fødselsdato);
             Console.WriteLine(fornavn + " " + efternavn + " " + fødselsdato.ToShortDateString());
+            //Console.WriteLine("SELECT * FROM Person");
         }
 
         public void OpdaterPerson()
